@@ -21,6 +21,7 @@ import com.zfj.android.moocrestaurant.ui.view.refresh.SwipeRefreshLayout;
 import com.zfj.android.moocrestaurant.utils.T;
 import com.zfj.android.moocrestaurant.vo.ProductItem;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +36,9 @@ public class ProductListActivity extends BaseActivity {
     private ProductListAdapter mAdapter;
     private List<ProductItem> mDatas = new ArrayList<>();
     private int mCurrentPage = 0;
-    private float mTotalPrice;
+    private double mTotalPrice;
     private int mTotalCount;
-
+    private DecimalFormat df=new DecimalFormat(".##");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +116,7 @@ public class ProductListActivity extends BaseActivity {
                 mTotalCount++;
                 mTvCount.setText("数量:" + mTotalCount);
                 mTotalPrice += productItem.getPrice();
+                mTotalPrice = Double.valueOf(df.format(mTotalPrice));
                 mBtnPay.setText(mTotalPrice + "元 立即支付");
                 mOrder.addProduct(productItem);
             }
@@ -127,6 +129,8 @@ public class ProductListActivity extends BaseActivity {
                 if (mTotalCount == 0) {
                     mTotalPrice = 0;
                 }
+
+                mTotalPrice = Double.valueOf(df.format(mTotalPrice));
                 mBtnPay.setText(mTotalPrice + "元 立即支付");
                 mOrder.removeProduct(productItem);
             }
